@@ -37,6 +37,19 @@ class CartModel {
     return _items[name]?.totalPrice ?? 0;
   }
 
+  void incrementItemQuantity(String itemName) {
+    if (_items.containsKey(itemName)) {
+      _items[itemName]!.quantity++;
+    }
+  }
+
+  void decrementItemQuantity(String itemName) {
+    if (_items.containsKey(itemName) && _items[itemName]!.quantity > 1) {
+      _items[itemName]!.quantity--;
+    } else if (_items.containsKey(itemName) && _items[itemName]!.quantity == 1) {
+      removeItem(itemName);
+    }
+  }
 }
 
 class CartItem {

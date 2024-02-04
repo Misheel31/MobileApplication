@@ -17,4 +17,13 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void incrementQuantity(String itemName) {
+    _cartModel.incrementItemQuantity(itemName);
+    notifyListeners();
+  }
+
+  void decrementQuantity(String itemName) {
+    _cartModel.decrementItemQuantity(itemName);
+    notifyListeners();
+  }
 }
