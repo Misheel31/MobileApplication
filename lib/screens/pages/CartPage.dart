@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/CartModel.dart';
 import '../../viewmodels/cartViewModel.dart';
-import '../components/cart_counter.dart';
 
 class CartPage extends StatelessWidget {
   final String itemName;
   final String itemPrice;
   final String itemQuantity;
 
-  // Add the constructor with named parameters
   const CartPage({
     Key? key,
     required this.itemName,

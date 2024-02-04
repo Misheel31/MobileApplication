@@ -56,10 +56,21 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(
                     height: 5,
                   ),
+
+                  // Text(''
+                  //     'Username:'),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
                   Text(
                     _loggedInUser!.email!,
                     style: TextStyle(fontSize: 20),
                   ),
+
+                  // Text(
+                  //   _loggedInUser!.username!,
+                  //   style: TextStyle(fontSize: 20),
+                  // ),
                 ],
               ),
             )
