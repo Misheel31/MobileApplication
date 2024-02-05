@@ -18,9 +18,7 @@ class ProductCard extends StatelessWidget {
           onPressed: (
 
               ) {
-
-            // Implement cart functionality (add item to cart)
-          },
+            },
         ),
       ),
     );
