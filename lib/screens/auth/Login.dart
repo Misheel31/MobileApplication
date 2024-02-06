@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grocerystore/reusable_widgets/reusable_widget.dart';
-import 'package:grocerystore/screens/pages/home_screen.dart';
 import 'package:grocerystore/screens/auth/Register.dart';
+import 'package:grocerystore/screens/pages/home_screen.dart';
 import 'package:grocerystore/services/local_notification_service.dart';
 import 'package:grocerystore/utils/color_utils.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +22,6 @@ class _LoginState extends State<Login> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
 
-  // final formKey = GlobalKey<FormState>();
-  // final database = FirebaseDatabase.instance;
-  //
-
   bool _obscureTextPassword = true;
 
   final _formKey = GlobalKey<FormState>();
@@ -45,16 +40,22 @@ class _LoginState extends State<Login> {
           body:
           "Hello ${_authViewModel.loggedInUser?.username},\n Hope you are having a wonderful day.",
         );
-        Navigator.of(context).pushReplacementNamed('/homescreen');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
       }).catchError((e) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message.toString())));
+        showErrorMessage(e.message.toString());
       });
     } catch (err) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(err.toString())));
+      showErrorMessage(err.toString());
     }
     _ui.loadState(false);
+  }
+
+
+  void showErrorMessage(String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
   }
 
   late GlobalUIViewModel _ui;
@@ -66,7 +67,6 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,29 +74,45 @@ class _LoginState extends State<Login> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
+          gradient: LinearGradient(
+            colors: [
               hexStringToColor("CB2B93"),
               hexStringToColor("9546C4"),
-              hexStringToColor("5E61F4")
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              hexStringToColor("5E61F4"),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+              20,
+              MediaQuery.of(context).size.height * 0.2,
+              20,
+              0,
+            ),
             child: Column(
               children: <Widget>[
-               logoWidget("assets/images/grocery.jpg"),
-                const SizedBox(
-                  height: 20,
-
-                ),
-                reusableTextField("Enter Email", Icons.person_outline, false,
-                    _emailTextController),
+                logoWidget("assets/images/grocery.jpg"),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Password", Icons.lock_outline, true,
-                    _passwordTextController),
+                reusableTextField(
+                  "Enter Email",
+                  Icons.person_outline,
+                  false,
+                  _emailTextController,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField(
+                  "Enter Password",
+                  Icons.lock_outline,
+                  true,
+                  _passwordTextController,
+                ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -104,16 +120,21 @@ class _LoginState extends State<Login> {
                 firebaseUIButton(context, "Sign In", () {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                      email: _emailTextController.text,
-                      password: _passwordTextController.text)
+                    email: _emailTextController.text,
+                    password: _passwordTextController.text,
+                  )
                       .then((value) {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                    );
                   }).onError((error, stackTrace) {
-                    print("Error ${error.toString()}");
+                    showErrorMessage("Error ${error.toString()}");
                   });
                 }),
-                signUpOption()
+                signUpOption(),
               ],
             ),
           ),
@@ -125,7 +146,7 @@ class _LoginState extends State<Login> {
   Widget logoWidget(String imagePath) {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-        Colors.black26, // Replace with your desired dark color
+        Colors.black26,
         BlendMode.lighten,
       ),
       child: Image.asset(
@@ -140,12 +161,13 @@ class _LoginState extends State<Login> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have account?",
-            style: TextStyle(color: Colors.white70)),
+        const Text("Don't have account?", style: TextStyle(color: Colors.white70)),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignUpScreen()),
+            );
           },
           child: const Text(
             " Sign Up",
@@ -168,7 +190,9 @@ class _LoginState extends State<Login> {
           textAlign: TextAlign.right,
         ),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResetPassword())),
+          context,
+          MaterialPageRoute(builder: (context) => ResetPassword()),
+        ),
       ),
     );
   }
