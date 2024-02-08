@@ -104,11 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 16),
-                        padding: EdgeInsets.all(8),
+                        margin: EdgeInsets.only(bottom: 20),
+                        padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               '${e.data().price ?? ""}',
                               style:
-                              TextStyle(fontSize: 14, color: Colors.grey),
+                              TextStyle(fontSize: 25, color: Colors.grey),
                             ),
                           ],
                         ),
